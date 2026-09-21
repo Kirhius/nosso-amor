@@ -46,8 +46,8 @@ Abra http://localhost:3000. No primeiro acesso ainda nao existe PIN: toque em "E
 
 ## 4. Instalar nos celulares
 
-- **Android (Xiaomi)**: abra o link no Chrome, menu (tres pontos), *Instalar app*. Depois toque em "Ativar avisos de aniversario". Se os avisos nao chegarem, libere o app nas configuracoes de bateria da MIUI/HyperOS.
-- **iPhone**: abra o link no Safari, *Compartilhar > Adicionar a Tela de Inicio*, abra o app pelo icone novo e so entao ative os avisos (o iOS so entrega push para o app instalado).
+- **Android (Xiaomi)**: abra o link no Chrome, menu (tres pontos), *Instalar app*. (O botao de avisos de aniversario foi retirado da tela; o codigo dos avisos continua no projeto, em `BotaoNotificacoes.tsx` e no cron.)
+- **iPhone**: abra o link no Safari, *Compartilhar > Adicionar a Tela de Inicio*, abra o app pelo icone novo.
 
 ## 5. Personalizar
 

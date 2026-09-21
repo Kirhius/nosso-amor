@@ -43,6 +43,12 @@ function garantirSchema(): Promise<void> {
         descricao text NOT NULL DEFAULT '',
         criado_em timestamptz NOT NULL DEFAULT now()
       )`
+      await q`CREATE TABLE IF NOT EXISTS viagens (
+        id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+        local text NOT NULL,
+        data date NOT NULL,
+        criada_em timestamptz NOT NULL DEFAULT now()
+      )`
       await q`CREATE TABLE IF NOT EXISTS curiosidades (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         texto text NOT NULL,

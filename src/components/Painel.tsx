@@ -2,24 +2,26 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Curiosidade, Foto, Momento } from '@/lib/tipos'
-import BotaoNotificacoes from './BotaoNotificacoes'
+import type { Curiosidade, Foto, Momento, Viagem } from '@/lib/tipos'
 import Cabecalho from './Cabecalho'
 import Contador from './Contador'
-import { Coracao, IconeBrilho, IconeCamera, IconeLinha } from './Icones'
+import { Coracao, IconeBrilho, IconeCamera, IconeLinha, IconePin } from './Icones'
 import SecaoCuriosidades from './SecaoCuriosidades'
 import SecaoFotos from './SecaoFotos'
 import SecaoMomentos from './SecaoMomentos'
+import SecaoViagens from './SecaoViagens'
 
-type Aba = 'fotos' | 'momentos' | 'curiosidades'
+type Aba = 'fotos' | 'momentos' | 'viagens' | 'curiosidades'
 
 export default function Painel({
   fotos,
   momentos,
+  viagens,
   curiosidades,
 }: {
   fotos: Foto[]
   momentos: Momento[]
+  viagens: Viagem[]
   curiosidades: Curiosidade[]
 }) {
   const router = useRouter()
@@ -46,6 +48,7 @@ export default function Painel({
   const abas: { id: Aba; texto: string; icone: React.ReactNode }[] = [
     { id: 'fotos', texto: 'Fotos', icone: <IconeCamera /> },
     { id: 'momentos', texto: 'Momentos', icone: <IconeLinha /> },
+    { id: 'viagens', texto: 'Viagens', icone: <IconePin /> },
     { id: 'curiosidades', texto: 'Curiosidades', icone: <IconeBrilho /> },
   ]
 
@@ -66,6 +69,7 @@ export default function Painel({
       <div ref={conteudo} style={{ scrollMarginTop: 16 }}>
         {aba === 'fotos' && <SecaoFotos inicial={fotos} />}
         {aba === 'momentos' && <SecaoMomentos inicial={momentos} />}
+        {aba === 'viagens' && <SecaoViagens inicial={viagens} />}
         {aba === 'curiosidades' && <SecaoCuriosidades inicial={curiosidades} />}
         {aba === null && (
           <p className="secao-sub" style={{ marginBottom: 0 }}>
@@ -75,7 +79,6 @@ export default function Painel({
       </div>
 
       <footer className="rodape-app">
-        <BotaoNotificacoes />
         <button type="button" className="link" onClick={sair}>
           Sair
         </button>

@@ -64,3 +64,12 @@ export function IconeApagar() {
     </svg>
   )
 }
+
+export function IconePin() {
+  return (
+    <svg {...traco}>
+      <path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z" />
+      <circle cx="12" cy="10" r="2.4" />
+    </svg>
+  )
+}

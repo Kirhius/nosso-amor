@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS fotos (
 CREATE TABLE IF NOT EXISTS momentos (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(), titulo text NOT NULL, data date NOT NULL,
   descricao text NOT NULL DEFAULT '', criado_em timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS viagens (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), local text NOT NULL, data date NOT NULL,
+  criada_em timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS curiosidades (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(), texto text NOT NULL,
   criada_em timestamptz NOT NULL DEFAULT now());

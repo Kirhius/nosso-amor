@@ -184,8 +184,8 @@ button { cursor: pointer; }
 .aba {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 7px;
+  padding: 9px 16px;
   border-radius: 999px;
   border: 1px solid var(--borda);
   background: var(--vidro);
@@ -303,33 +303,32 @@ input[type='date'].campo { color-scheme: dark; }
 
 /* ---------- Fotos (polaroids) ---------- */
 
-.polaroids { column-count: 2; column-gap: 16px; padding: 6px 4px 0; }
-@media (min-width: 640px) { .polaroids { column-count: 3; } }
+.polaroids { column-count: 3; column-gap: 10px; padding: 4px 2px 0; }
 
 .polaroid {
   break-inside: avoid;
-  margin: 0 0 22px;
-  padding: 8px 8px 12px;
+  margin: 0 0 14px;
+  padding: 5px 5px 7px;
   background: #fff6f1;
   border: 0;
   border-radius: 3px;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   transform: rotate(var(--inclina, 0deg));
   display: block;
   width: 100%;
   text-align: center;
 }
-.polaroid:nth-child(3n + 1) { --inclina: -1.6deg; }
-.polaroid:nth-child(3n + 2) { --inclina: 1.3deg; }
-.polaroid:nth-child(3n) { --inclina: -0.4deg; }
+.polaroid:nth-child(3n + 1) { --inclina: -1.2deg; }
+.polaroid:nth-child(3n + 2) { --inclina: 1deg; }
+.polaroid:nth-child(3n) { --inclina: -0.3deg; }
 .polaroid img { display: block; width: 100%; height: auto; background: #e9d3cf; }
 .polaroid .legenda {
   display: block;
-  min-height: 1.6rem;
-  margin-top: 8px;
+  min-height: 1.1rem;
+  margin-top: 4px;
   font-family: var(--script);
-  font-size: 1.3rem;
-  line-height: 1.2;
+  font-size: 1rem;
+  line-height: 1.15;
   color: var(--vinho-claro);
 }
 
@@ -383,6 +382,27 @@ input[type='date'].campo { color-scheme: dark; }
 .trilha .data { font-family: var(--script); font-size: 1.5rem; color: var(--ouro); line-height: 1.1; }
 .trilha h3 { margin: 2px 0 4px; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
 .trilha p { margin: 0 0 6px; font-style: italic; color: var(--seda-suave); white-space: pre-line; }
+
+.trilha .acoes-item, .viagem .acoes-item { display: flex; gap: 18px; }
+.trilha .form { margin: 0 0 8px; }
+
+/* ---------- Viagens ---------- */
+
+.lista-viagens { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.viagem {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--borda);
+  background: linear-gradient(160deg, rgba(255, 194, 209, 0.12), rgba(255, 194, 209, 0.03));
+}
+.viagem-icone { flex: none; width: 26px; height: 26px; margin-top: 3px; color: var(--rosa); }
+.viagem-icone svg { width: 100%; height: 100%; }
+.viagem-texto { min-width: 0; }
+.viagem h3 { margin: 0; font-size: 1.4rem; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+.viagem .data { font-family: var(--script); font-size: 1.4rem; color: var(--ouro); line-height: 1.15; margin-bottom: 2px; }
 
 /* ---------- Curiosidades ---------- */
 

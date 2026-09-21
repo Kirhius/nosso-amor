@@ -14,6 +14,12 @@ export type Momento = {
   descricao: string
 }
 
+export type Viagem = {
+  id: string
+  local: string
+  data: string // YYYY-MM-DD
+}
+
 export type Autor = 'ele' | 'ela'
 
 export type Curiosidade = {
