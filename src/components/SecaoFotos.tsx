@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Foto } from '@/lib/tipos'
+import type { Autor, Foto } from '@/lib/tipos'
 import { IconeCamera } from './Icones'
 
 type Decodificada = { fonte: CanvasImageSource; w: number; h: number; liberar: () => void }
@@ -56,7 +56,7 @@ async function enviarBlob(url: string, blob: Blob) {
 
 const json = { 'Content-Type': 'application/json' }
 
-export default function SecaoFotos({ inicial }: { inicial: Foto[] }) {
+export default function SecaoFotos({ inicial, autor }: { inicial: Foto[]; autor: Autor }) {
   const [fotos, setFotos] = useState<Foto[]>(inicial)
   const [aberta, setAberta] = useState<number | null>(null)
   const [status, setStatus] = useState<{ texto: string; erro: boolean } | null>(null)
@@ -107,6 +107,9 @@ export default function SecaoFotos({ inicial }: { inicial: Foto[] }) {
     }
     setEnviando(false)
     if (entrada.current) entrada.current.value = ''
+    if (enviadas > 0) {
+      fetch('/api/fotos/avisar', { method: 'POST', headers: json, body: JSON.stringify({ autor, quantidade: enviadas }) }).catch(() => {})
+    }
     if (falhas === 0) {
       setStatus({ texto: enviadas === 1 ? 'Foto guardada.' : `${enviadas} fotos guardadas.`, erro: false })
     } else {

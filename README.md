@@ -46,8 +46,10 @@ Abra http://localhost:3000. No primeiro acesso ainda nao existe PIN: toque em "E
 
 ## 4. Instalar nos celulares
 
-- **Android (Xiaomi)**: abra o link no Chrome, menu (tres pontos), *Instalar app*. (O botao de avisos de aniversario foi retirado da tela; o codigo dos avisos continua no projeto, em `BotaoNotificacoes.tsx` e no cron.)
-- **iPhone**: abra o link no Safari, *Compartilhar > Adicionar a Tela de Inicio*, abra o app pelo icone novo.
+- **Android (Xiaomi)**: abra o link no Chrome, menu (tres pontos), *Instalar app*. Depois toque em "Ativar avisos", no rodape do app.
+- **iPhone**: abra o link no Safari, *Compartilhar > Adicionar a Tela de Inicio*, abra o app pelo icone novo, e so entao toque em "Ativar avisos" (o iOS so entrega push para o app instalado).
+
+No primeiro acesso de cada aparelho, o app pergunta "Quem esta usando este aparelho?" (Henrique ou Renata). Essa escolha fica soh naquele aparelho e decide quem recebe o aviso quando o outro adiciona uma foto, um momento ou uma viagem — quem faz a acao nao se autoavisa.
 
 ## 5. Personalizar
 

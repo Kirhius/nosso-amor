@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Momento } from '@/lib/tipos'
+import type { Autor, Momento } from '@/lib/tipos'
 import { Coracao } from './Icones'
 
 const json = { 'Content-Type': 'application/json' }
@@ -63,14 +63,14 @@ function FormMomento({
   )
 }
 
-export default function SecaoMomentos({ inicial }: { inicial: Momento[] }) {
+export default function SecaoMomentos({ inicial, autor }: { inicial: Momento[]; autor: Autor }) {
   const [momentos, setMomentos] = useState<Momento[]>(inicial)
   const [adicionando, setAdicionando] = useState(false)
   const [editandoId, setEditandoId] = useState<string | null>(null)
 
   async function criar(d: Dados) {
     try {
-      const r = await fetch('/api/momentos', { method: 'POST', headers: json, body: JSON.stringify(d) })
+      const r = await fetch('/api/momentos', { method: 'POST', headers: json, body: JSON.stringify({ ...d, autor }) })
       if (!r.ok) return false
       setMomentos((await r.json()).momentos)
       setAdicionando(false)

@@ -61,6 +61,7 @@ function garantirSchema(): Promise<void> {
         auth text NOT NULL,
         criada_em timestamptz NOT NULL DEFAULT now()
       )`
+      await q`ALTER TABLE push_inscricoes ADD COLUMN IF NOT EXISTS autor text NOT NULL DEFAULT 'ele'`
     })().catch((e) => {
       pronto = null
       throw e

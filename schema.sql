@@ -21,3 +21,4 @@ ALTER TABLE curiosidades ADD COLUMN IF NOT EXISTS autor text NOT NULL DEFAULT 'e
 CREATE TABLE IF NOT EXISTS push_inscricoes (
   endpoint text PRIMARY KEY, p256dh text NOT NULL, auth text NOT NULL,
   criada_em timestamptz NOT NULL DEFAULT now());
+ALTER TABLE push_inscricoes ADD COLUMN IF NOT EXISTS autor text NOT NULL DEFAULT 'ele';

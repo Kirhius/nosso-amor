@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import type { Autor } from '@/lib/tipos'
+import { IconeSino } from './Icones'
 
 type Estado = 'carregando' | 'sem-chave' | 'sem-suporte' | 'instalar-ios' | 'pedir' | 'ativo' | 'negado'
 
@@ -14,7 +16,7 @@ function chaveParaBytes(base64: string): BufferSource {
   return bytes as unknown as BufferSource
 }
 
-export default function BotaoNotificacoes() {
+export default function BotaoNotificacoes({ autor }: { autor: Autor }) {
   const [estado, setEstado] = useState<Estado>('carregando')
   const [aviso, setAviso] = useState('')
 
@@ -63,7 +65,7 @@ export default function BotaoNotificacoes() {
       const r = await fetch('/api/push/inscrever', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sub.toJSON()),
+        body: JSON.stringify({ ...sub.toJSON(), autor }),
       })
       if (!r.ok) throw new Error()
       setEstado('ativo')
@@ -77,45 +79,36 @@ export default function BotaoNotificacoes() {
     const r = await fetch('/api/push/teste', { method: 'POST' })
     const d = await r.json().catch(() => ({}))
     if (!r.ok) setAviso(d.detalhe ? `Configuração pendente: ${d.detalhe}` : 'Não foi possível enviar o teste.')
-    else setAviso(d.enviados > 0 ? 'Teste enviado. Ele deve chegar em instantes.' : 'Nenhum aparelho recebeu o teste.')
+    else setAviso(d.enviados > 0 ? 'Teste enviado.' : 'Nenhum aparelho recebeu o teste.')
   }
 
-  if (estado === 'carregando') return null
+  // Estados que não pedem acao do usuario ficam ocultos, para manter o rodape discreto.
+  if (estado === 'carregando' || estado === 'sem-chave' || estado === 'sem-suporte') return null
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className="notif">
       {estado === 'pedir' && (
-        <button type="button" className="botao-suave" onClick={ativar}>
-          Ativar avisos de aniversário
+        <button type="button" className="link" onClick={ativar} title="Avisa quando o outro adicionar algo novo">
+          <IconeSino /> Ativar avisos
         </button>
       )}
       {estado === 'ativo' && (
-        <span>
-          Avisos ativos neste aparelho.{' '}
+        <span className="notif-ativo" title="Você recebe um aviso quando o outro adiciona algo novo">
+          <IconeSino cheio /> Avisos ativos
           <button type="button" className="link" onClick={testar}>
-            Enviar teste
+            testar
           </button>
         </span>
       )}
       {estado === 'instalar-ios' && (
-        <p className="vazio" style={{ padding: 0 }}>
-          Para receber avisos no iPhone, toque em Compartilhar, depois em Adicionar à Tela de Início, e abra o app por lá.
-        </p>
+        <span className="notif-dica" title="No iPhone, instale na Tela de Início para receber avisos">
+          <IconeSino /> Instale na Tela de Início para ativar
+        </span>
       )}
       {estado === 'negado' && (
-        <p className="vazio" style={{ padding: 0 }}>
-          Os avisos estão bloqueados. Libere nas configurações do aparelho.
-        </p>
-      )}
-      {estado === 'sem-suporte' && (
-        <p className="vazio" style={{ padding: 0 }}>
-          Este navegador não recebe avisos.
-        </p>
-      )}
-      {estado === 'sem-chave' && (
-        <p className="vazio" style={{ padding: 0 }}>
-          Avisos ainda não configurados (chaves VAPID).
-        </p>
+        <span className="notif-dica" title="Os avisos estão bloqueados nas configurações do aparelho">
+          <IconeSino /> Avisos bloqueados no aparelho
+        </span>
       )}
       {aviso && (
         <p className="aviso" role="status">

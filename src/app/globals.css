@@ -264,6 +264,9 @@ button { cursor: pointer; }
 
 .acoes { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
 
+.acoes-empilhadas { display: grid; gap: 12px; max-width: 300px; margin: 4px auto 0; }
+.acoes-empilhadas .botao { width: 100%; }
+
 .form {
   display: grid;
   gap: 14px;
@@ -449,6 +452,20 @@ input[type='date'].campo { color-scheme: dark; }
 /* ---------- Rodape ---------- */
 
 .rodape-app { margin-top: 40px; display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; align-items: center; }
+
+.notif { display: flex; align-items: center; }
+.notif svg { width: 18px; height: 18px; }
+.notif .link { display: inline-flex; align-items: center; gap: 6px; font-size: 1rem; text-decoration: none; }
+.notif-ativo, .notif-dica {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
+  color: var(--seda-suave);
+  font-style: italic;
+}
+.notif-ativo .link { font-size: 0.9rem; margin-left: 2px; }
+.notif .aviso { margin: 6px 0 0; font-size: 0.9rem; min-height: 0; }
 
 /* ---------- Tela do PIN ---------- */
 

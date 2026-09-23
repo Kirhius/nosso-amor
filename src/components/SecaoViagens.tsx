@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Viagem } from '@/lib/tipos'
+import type { Autor, Viagem } from '@/lib/tipos'
 import { IconePin } from './Icones'
 
 const json = { 'Content-Type': 'application/json' }
@@ -61,14 +61,14 @@ function FormViagem({
   )
 }
 
-export default function SecaoViagens({ inicial }: { inicial: Viagem[] }) {
+export default function SecaoViagens({ inicial, autor }: { inicial: Viagem[]; autor: Autor }) {
   const [viagens, setViagens] = useState<Viagem[]>(inicial)
   const [adicionando, setAdicionando] = useState(false)
   const [editandoId, setEditandoId] = useState<string | null>(null)
 
   async function criar(d: Dados) {
     try {
-      const r = await fetch('/api/viagens', { method: 'POST', headers: json, body: JSON.stringify(d) })
+      const r = await fetch('/api/viagens', { method: 'POST', headers: json, body: JSON.stringify({ ...d, autor }) })
       if (!r.ok) return false
       setViagens((await r.json()).viagens)
       setAdicionando(false)
