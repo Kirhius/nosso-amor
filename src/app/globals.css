@@ -172,22 +172,44 @@ button { cursor: pointer; }
 .contador-vazio { min-height: 180px; }
 
 .frase-dia {
+  position: relative;
   max-width: 34ch;
-  margin: 16px auto 0;
+  margin: 20px auto 0;
+  padding: 22px 20px 16px;
   text-align: center;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 194, 209, 0.35);
+  background: linear-gradient(160deg, rgba(255, 122, 156, 0.22), rgba(255, 194, 209, 0.08));
+  box-shadow: 0 10px 28px rgba(255, 122, 156, 0.16);
 }
+.frase-dia-coracao {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffb3c6, #ff7a9c);
+  color: #fff5f3;
+  box-shadow: 0 4px 12px rgba(255, 122, 156, 0.45);
+}
+.frase-dia-coracao svg { width: 14px; height: 14px; }
 .frase-dia p {
   margin: 0;
   font-style: italic;
   font-size: 1.05rem;
   line-height: 1.45;
-  color: var(--seda-suave);
+  color: var(--seda);
 }
 .frase-dia span {
   display: block;
-  margin-top: 6px;
+  margin-top: 8px;
   font-family: var(--script);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--ouro);
 }
 
