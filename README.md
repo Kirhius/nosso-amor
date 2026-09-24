@@ -51,7 +51,14 @@ Abra http://localhost:3000. No primeiro acesso ainda nao existe PIN: toque em "E
 
 No primeiro acesso de cada aparelho, o app pergunta "Quem esta usando este aparelho?" (Henrique ou Renata). Essa escolha fica soh naquele aparelho e decide quem recebe o aviso quando o outro adiciona uma foto, um momento ou uma viagem — quem faz a acao nao se autoavisa.
 
-## 5. Personalizar
+## 5. As abas novas
+
+- **Frase do dia**: fica embaixo do contador na tela inicial. O texto (referencias biblicas parafraseadas e reflexoes) esta em `src/lib/frases.ts` — edite ou substitua pela traducao exata que preferirem.
+- **Eventos**: contagem regressiva para compromissos futuros, com icone por tipo (viagem, show, passeio, churrasco, jantar, outro) e um campo de observacao.
+- **Nosso Mapa**: mapa com OpenStreetMap (gratuito). Toque em qualquer ponto para marcar um coracao, com local e data opcionais. Uso pessoal e leve nao tem custo, mas o OpenStreetMap pede uso moderado (nada de milhares de acessos por minuto) e mantém a atribuicao visivel no canto do mapa, que ja vem configurada.
+- **Quiz**: cada um cria perguntas de multipla escolha para o outro responder, com placar de acertos. A resposta certa fica escondida no servidor ate a pergunta ser respondida, entao nao aparece nem espiando o codigo da pagina.
+
+## 6. Personalizar
 
 - Textos e data de inicio: `src/lib/config.ts`.
 - Cores e fontes: `src/app/globals.css` (variaveis no topo).

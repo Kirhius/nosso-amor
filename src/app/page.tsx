@@ -1,7 +1,7 @@
 import Painel from '@/components/Painel'
 import TelaPin from '@/components/TelaPin'
 import { sessaoValida } from '@/lib/auth'
-import { listarCuriosidades, listarFotos, listarMomentos, listarViagens } from '@/lib/dados'
+import { listarCuriosidades, listarEventos, listarFotos, listarMomentos, listarPontosMapa, listarViagens } from '@/lib/dados'
 import { getConfig } from '@/lib/db'
 import { faltandoEssenciais } from '@/lib/env'
 
@@ -42,13 +42,24 @@ export default async function Home() {
       const temPin = Boolean(await getConfig('pin_hash'))
       return <TelaPin temPin={temPin} />
     }
-    const [fotos, momentos, viagens, curiosidades] = await Promise.all([
+    const [fotos, momentos, eventos, viagens, pontosMapa, curiosidades] = await Promise.all([
       listarFotos(),
       listarMomentos(),
+      listarEventos(),
       listarViagens(),
+      listarPontosMapa(),
       listarCuriosidades(),
     ])
-    return <Painel fotos={fotos} momentos={momentos} viagens={viagens} curiosidades={curiosidades} />
+    return (
+      <Painel
+        fotos={fotos}
+        momentos={momentos}
+        eventos={eventos}
+        viagens={viagens}
+        pontosMapa={pontosMapa}
+        curiosidades={curiosidades}
+      />
+    )
   } catch (e) {
     console.error('Erro ao abrir o app:', e)
     const msg = e instanceof Error ? e.message : ''

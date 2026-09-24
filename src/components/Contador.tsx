@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { CONFIG } from '@/lib/config'
 import { decompor, type Tempo } from '@/lib/tempo'
+import FraseDoDia from './FraseDoDia'
 import { CAMINHO_CORACAO } from './Icones'
 
 const plural = (n: number, s: string, p: string) => (n === 1 ? s : p)
@@ -85,6 +86,7 @@ export default function Contador() {
         </div>
 
         <p className="desde">{CONFIG.inicioTexto}</p>
+        <FraseDoDia />
       </div>
     </section>
   )

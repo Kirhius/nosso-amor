@@ -2,29 +2,36 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Autor, Curiosidade, Foto, Momento, Viagem } from '@/lib/tipos'
+import type { Autor, Curiosidade, Evento, Foto, Momento, PontoMapa, Viagem } from '@/lib/tipos'
 import BotaoNotificacoes from './BotaoNotificacoes'
 import Cabecalho from './Cabecalho'
 import Contador from './Contador'
 import EscolherAutor from './EscolherAutor'
-import { Coracao, IconeBrilho, IconeCamera, IconeLinha, IconePin } from './Icones'
+import { Coracao, IconeBrilho, IconeCalendario, IconeCamera, IconeLinha, IconePin, IconeQuiz } from './Icones'
+import NossoMapa from './NossoMapa'
 import SecaoCuriosidades from './SecaoCuriosidades'
+import SecaoEventos from './SecaoEventos'
+import SecaoQuiz from './SecaoQuiz'
 import SecaoFotos from './SecaoFotos'
 import SecaoMomentos from './SecaoMomentos'
 import SecaoViagens from './SecaoViagens'
 
-type Aba = 'fotos' | 'momentos' | 'viagens' | 'curiosidades'
+type Aba = 'fotos' | 'momentos' | 'eventos' | 'viagens' | 'mapa' | 'quiz' | 'curiosidades'
 const CHAVE_AUTOR = 'amor_autor'
 
 export default function Painel({
   fotos,
   momentos,
+  eventos,
   viagens,
+  pontosMapa,
   curiosidades,
 }: {
   fotos: Foto[]
   momentos: Momento[]
+  eventos: Evento[]
   viagens: Viagem[]
+  pontosMapa: PontoMapa[]
   curiosidades: Curiosidade[]
 }) {
   const router = useRouter()
@@ -64,7 +71,10 @@ export default function Painel({
   const abas: { id: Aba; texto: string; icone: React.ReactNode }[] = [
     { id: 'fotos', texto: 'Fotos', icone: <IconeCamera /> },
     { id: 'momentos', texto: 'Momentos', icone: <IconeLinha /> },
+    { id: 'eventos', texto: 'Eventos', icone: <IconeCalendario /> },
     { id: 'viagens', texto: 'Viagens', icone: <IconePin /> },
+    { id: 'mapa', texto: 'Nosso Mapa', icone: <Coracao /> },
+    { id: 'quiz', texto: 'Quiz', icone: <IconeQuiz /> },
     { id: 'curiosidades', texto: 'Curiosidades', icone: <IconeBrilho /> },
   ]
 
@@ -85,7 +95,10 @@ export default function Painel({
       <div ref={conteudo} style={{ scrollMarginTop: 16 }}>
         {aba === 'fotos' && <SecaoFotos inicial={fotos} autor={autor} />}
         {aba === 'momentos' && <SecaoMomentos inicial={momentos} autor={autor} />}
+        {aba === 'eventos' && <SecaoEventos inicial={eventos} />}
         {aba === 'viagens' && <SecaoViagens inicial={viagens} autor={autor} />}
+        {aba === 'mapa' && <NossoMapa inicial={pontosMapa} />}
+        {aba === 'quiz' && <SecaoQuiz autor={autor} />}
         {aba === 'curiosidades' && <SecaoCuriosidades inicial={curiosidades} />}
         {aba === null && (
           <p className="secao-sub" style={{ marginBottom: 0 }}>

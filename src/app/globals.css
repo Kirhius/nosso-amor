@@ -171,6 +171,26 @@ button { cursor: pointer; }
 
 .contador-vazio { min-height: 180px; }
 
+.frase-dia {
+  max-width: 34ch;
+  margin: 16px auto 0;
+  text-align: center;
+}
+.frase-dia p {
+  margin: 0;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--seda-suave);
+}
+.frase-dia span {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--script);
+  font-size: 1.2rem;
+  color: var(--ouro);
+}
+
 /* ---------- Navegacao ---------- */
 
 .abas {
@@ -389,6 +409,57 @@ input[type='date'].campo { color-scheme: dark; }
 .trilha .acoes-item, .viagem .acoes-item { display: flex; gap: 18px; }
 .trilha .form { margin: 0 0 8px; }
 
+/* ---------- Eventos ---------- */
+
+.seletor-tipos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tipo-evento {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  border-radius: 14px;
+  border: 1px solid var(--borda);
+  background: transparent;
+  color: var(--seda-suave);
+  font-size: 0.85rem;
+}
+.tipo-evento svg { width: 22px; height: 22px; }
+.tipo-evento.selecionado {
+  background: linear-gradient(135deg, rgba(255, 122, 156, 0.28), rgba(255, 122, 156, 0.1));
+  border-color: var(--rosa);
+  color: var(--seda);
+}
+
+.lista-eventos { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.evento {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--borda);
+  background: linear-gradient(160deg, rgba(255, 194, 209, 0.12), rgba(255, 194, 209, 0.03));
+}
+.lista-eventos li.passado .evento { opacity: 0.6; }
+.evento-icone {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 122, 156, 0.16);
+  color: var(--rosa);
+}
+.evento-icone svg { width: 20px; height: 20px; }
+.evento-texto { min-width: 0; flex: 1; }
+.evento h3 { margin: 0; font-size: 1.35rem; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+.evento .data { font-family: var(--script); font-size: 1.3rem; color: var(--ouro); line-height: 1.15; margin-top: 2px; }
+.evento .contagem { font-weight: 700; color: var(--rosa); margin-top: 2px; font-size: 0.95rem; }
+.evento .observacao { margin: 6px 0 0; font-style: italic; color: var(--seda-suave); white-space: pre-line; overflow-wrap: anywhere; }
+
 /* ---------- Viagens ---------- */
 
 .lista-viagens { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
@@ -406,6 +477,31 @@ input[type='date'].campo { color-scheme: dark; }
 .viagem-texto { min-width: 0; }
 .viagem h3 { margin: 0; font-size: 1.4rem; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
 .viagem .data { font-family: var(--script); font-size: 1.4rem; color: var(--ouro); line-height: 1.15; margin-bottom: 2px; }
+
+/* ---------- Nosso Mapa ---------- */
+
+.mapa-wrap {
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--borda);
+}
+.leaflet-container {
+  filter: brightness(0.93) contrast(1.05) saturate(0.9);
+  background: #1b0a12;
+  font-family: var(--serif);
+}
+.leaflet-popup-content-wrapper { border-radius: 14px; }
+.leaflet-popup-content { font-family: var(--serif); color: #3d0f25; }
+.leaflet-popup-content button {
+  border: 0;
+  border-radius: 999px;
+  padding: 5px 14px;
+  background: #ff7a9c;
+  color: #2a0a17;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.mapa-form { margin-top: 14px; }
 
 /* ---------- Curiosidades ---------- */
 
@@ -448,6 +544,60 @@ input[type='date'].campo { color-scheme: dark; }
 }
 .lista-curiosidades .link { font-size: 0.9rem; }
 .coluna-curiosidades .vazio { padding: 6px 2px; font-size: 1rem; }
+
+/* ---------- Quiz ---------- */
+
+.quiz-placar {
+  display: grid;
+  gap: 6px;
+  margin: 0 auto 24px;
+  padding: 14px 18px;
+  max-width: 420px;
+  border-radius: 18px;
+  border: 1px solid var(--borda);
+  background: linear-gradient(160deg, rgba(255, 194, 209, 0.14), rgba(255, 194, 209, 0.04));
+  text-align: center;
+  font-size: 1rem;
+}
+.quiz-placar strong { color: var(--rosa); font-family: var(--numeros); }
+
+.quiz-subtitulo {
+  margin: 26px 0 12px;
+  text-align: center;
+  font-family: var(--script);
+  font-weight: 400;
+  font-size: 1.7rem;
+  color: var(--petala);
+}
+
+.quiz-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.quiz-cartao {
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--borda);
+  background: linear-gradient(160deg, rgba(255, 194, 209, 0.12), rgba(255, 194, 209, 0.03));
+}
+.quiz-pergunta { margin: 0 0 10px; font-size: 1.15rem; font-weight: 600; line-height: 1.35; }
+.quiz-opcoes { display: grid; gap: 8px; }
+.quiz-opcao {
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--seda);
+  font-size: 1rem;
+}
+.quiz-opcao.estatica { cursor: default; }
+.quiz-opcao.correta { border-color: #7bdc9a; background: rgba(123, 220, 154, 0.16); }
+.quiz-opcao.escolhida-errada { border-color: #ff8a9a; background: rgba(255, 138, 154, 0.16); }
+.quiz-status { margin: 10px 0 0; font-style: italic; color: var(--seda-suave); }
+.quiz-cartao.resultado.acertou .quiz-status { color: #8ff0ac; }
+.quiz-cartao.resultado.errou .quiz-status { color: #ffb0bb; }
+
+.quiz-linha-opcao { display: flex; align-items: center; gap: 10px; }
+.quiz-linha-opcao input[type='radio'] { flex: none; width: 18px; height: 18px; accent-color: var(--rosa); }
+.quiz-linha-opcao .campo { flex: 1; border-bottom: 1px solid var(--borda); padding-bottom: 6px; }
 
 /* ---------- Rodape ---------- */
 
