@@ -42,7 +42,7 @@ Abra http://localhost:3000. No primeiro acesso ainda nao existe PIN: toque em "E
 1. Suba o projeto para o GitHub e importe no Vercel.
 2. Em *Settings > Environment Variables*, cadastre TODAS as variaveis do `.env.example` (com `APP_URL` = endereco do Vercel). `NEXT_PUBLIC_VAPID_PUBLIC_KEY` precisa existir antes do deploy.
 3. Volte no CORS do R2 e ponha o endereco real do app.
-4. O cron diario (`vercel.json`) roda as 08h30 de Brasilia. No plano gratuito o horario pode variar dentro da hora.
+4. Os crons diarios (`vercel.json`) rodam as 08h00 (frase do dia) e 08h30 (aniversario) de Brasilia. No plano gratuito o horario pode variar dentro da hora.
 
 ## 4. Instalar nos celulares
 
