@@ -68,6 +68,7 @@ No primeiro acesso de cada aparelho, o app pergunta "Quem esta usando este apare
 - Textos e data de inicio: `src/lib/config.ts`.
 - Cores e fontes: `src/app/globals.css` (variaveis no topo).
 - Icones: `python3 scripts/gerar_icones.py`.
+- Icone da barra de notificacao (badge do Android): `python3 scripts/gerar_badge.py`, gera `public/icons/badge-coracao-192.png` (silhueta branca, fundo transparente — o Android ignora as cores desse icone e usa so a transparencia).
 
 ## Seguranca (resumo)
 

@@ -14,7 +14,7 @@ self.addEventListener('push', (event) => {
     self.registration.showNotification(dados.title || 'Henrique e Renata', {
       body: dados.body || '',
       icon: '/icons/icon-192.png',
-      badge: '/icons/icon-192.png',
+      badge: '/icons/badge-coracao-192.png',
       data: { url: dados.url || '/' },
     }),
   )
