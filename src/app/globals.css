@@ -431,6 +431,71 @@ input[type='date'].campo { color-scheme: dark; }
 .trilha .acoes-item, .viagem .acoes-item { display: flex; gap: 18px; }
 .trilha .form { margin: 0 0 8px; }
 
+/* ---------- Bilhetes ---------- */
+
+.seletor-de-para { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.seletor-rotulo { font-family: var(--script); font-size: 1.3rem; color: var(--petala); min-width: 58px; }
+.seletor-botoes { display: flex; gap: 8px; flex: 1; }
+.seletor-botao {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--borda);
+  background: transparent;
+  color: var(--seda-suave);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.seletor-botao.selecionado {
+  background: linear-gradient(135deg, #ffb3c6, #ff7a9c);
+  border-color: transparent;
+  color: #2a0a17;
+}
+
+.feed-bilhetes { display: grid; gap: 20px; }
+.post-it {
+  position: relative;
+  padding: 20px 18px 14px;
+  background: linear-gradient(160deg, #fff6e9, #ffe9d6);
+  color: #4a2c1a;
+  border-radius: 4px 4px 18px 18px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35), 0 2px 0 rgba(255, 255, 255, 0.4) inset;
+  transform: rotate(var(--inclina, 0deg));
+}
+.post-it::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 56px;
+  height: 20px;
+  background: rgba(255, 122, 156, 0.55);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+.feed-bilhetes .post-it:nth-child(3n + 1) { --inclina: -1deg; }
+.feed-bilhetes .post-it:nth-child(3n + 2) { --inclina: 0.8deg; }
+.feed-bilhetes .post-it:nth-child(3n) { --inclina: -0.3deg; }
+.post-it.editando { background: linear-gradient(160deg, rgba(255, 194, 209, 0.14), rgba(255, 194, 209, 0.04)); color: var(--seda); transform: none; box-shadow: none; border: 1px solid var(--borda); }
+.post-it.editando::before { display: none; }
+
+.post-it-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--script);
+  font-size: 1.25rem;
+  color: #8a4a2c;
+  margin-bottom: 6px;
+}
+.post-it-cabecalho strong { color: #5c2a12; }
+.post-it-texto { margin: 0 0 12px; font-size: 1.08rem; line-height: 1.5; white-space: pre-line; overflow-wrap: anywhere; }
+.post-it-rodape { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.post-it-data { font-size: 0.82rem; color: #8a6a52; font-style: italic; }
+.post-it-rodape .link { font-size: 0.85rem; color: #a24a68; }
+.post-it-rodape .link.perigo { color: #b5384f; }
+
 /* ---------- Eventos ---------- */
 
 .seletor-tipos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -617,6 +682,13 @@ input[type='date'].campo { color-scheme: dark; }
 .quiz-cartao.resultado.acertou .quiz-status { color: #8ff0ac; }
 .quiz-cartao.resultado.errou .quiz-status { color: #ffb0bb; }
 
+.quiz-tipo-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.quiz-resposta-texto { display: flex; gap: 8px; align-items: center; }
+.quiz-resposta-texto .campo { flex: 1; border: 1px solid var(--borda); border-radius: 12px; padding: 10px 12px; }
+.quiz-resultado-texto { display: grid; gap: 4px; margin-bottom: 4px; }
+.quiz-resultado-texto p { margin: 0; }
+.quiz-resultado-texto strong { color: var(--rosa); }
+
 .quiz-linha-opcao { display: flex; align-items: center; gap: 10px; }
 .quiz-linha-opcao input[type='radio'] { flex: none; width: 18px; height: 18px; accent-color: var(--rosa); }
 .quiz-linha-opcao .campo { flex: 1; border-bottom: 1px solid var(--borda); padding-bottom: 6px; }
@@ -624,6 +696,46 @@ input[type='date'].campo { color-scheme: dark; }
 /* ---------- Rodape ---------- */
 
 .rodape-app { margin-top: 40px; display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; align-items: center; }
+
+.botao-engrenagem {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--borda);
+  background: var(--vidro);
+  color: var(--seda-suave);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.botao-engrenagem svg { width: 20px; height: 20px; }
+.botao-engrenagem:active { color: var(--seda); }
+
+.modal-fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(20, 4, 10, 0.72);
+  backdrop-filter: blur(3px);
+}
+.modal-config {
+  width: 100%;
+  max-width: 360px;
+  padding: 22px 20px;
+  border-radius: 24px;
+  border: 1px solid var(--borda);
+  background: linear-gradient(165deg, #3d0f25, #2a0a17);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  display: grid;
+  gap: 18px;
+}
+.modal-config-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.modal-config .notif { justify-content: center; }
+.modal-config > .link.perigo { justify-self: center; }
 
 .notif { display: flex; align-items: center; }
 .notif svg { width: 18px; height: 18px; }

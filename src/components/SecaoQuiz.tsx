@@ -2,37 +2,65 @@
 
 import { useEffect, useState } from 'react'
 import { CONFIG } from '@/lib/config'
-import type { Autor, PerguntaQuiz } from '@/lib/tipos'
+import type { Autor, PerguntaQuiz, TipoPerguntaQuiz } from '@/lib/tipos'
 
 const json = { 'Content-Type': 'application/json' }
 const nomeDe = (a: Autor) => (a === 'ele' ? CONFIG.nomeEle : CONFIG.nomeEla)
+
+type RespostaEnviada = { opcaoEscolhida?: number; respostaTextoDada?: string }
 
 function CartaoResponder({
   pergunta,
   onResponder,
 }: {
   pergunta: PerguntaQuiz
-  onResponder: (id: string, opcao: number) => Promise<void>
+  onResponder: (id: string, r: RespostaEnviada) => Promise<void>
 }) {
   const [enviando, setEnviando] = useState(false)
+  const [texto, setTexto] = useState('')
 
   async function escolher(i: number) {
     if (enviando) return
     setEnviando(true)
-    await onResponder(pergunta.id, i)
+    await onResponder(pergunta.id, { opcaoEscolhida: i })
+    setEnviando(false)
+  }
+
+  async function enviarTexto(e: React.FormEvent) {
+    e.preventDefault()
+    if (enviando || !texto.trim()) return
+    setEnviando(true)
+    await onResponder(pergunta.id, { respostaTextoDada: texto.trim() })
     setEnviando(false)
   }
 
   return (
     <li className="quiz-cartao">
       <p className="quiz-pergunta">{pergunta.pergunta}</p>
-      <div className="quiz-opcoes">
-        {pergunta.opcoes.map((op, i) => (
-          <button key={i} type="button" className="quiz-opcao" onClick={() => escolher(i)} disabled={enviando}>
-            {op}
+      {pergunta.tipo === 'texto' ? (
+        <form className="quiz-resposta-texto" onSubmit={enviarTexto}>
+          <input
+            className="campo"
+            placeholder="Sua resposta…"
+            value={texto}
+            maxLength={200}
+            disabled={enviando}
+            onChange={(e) => setTexto(e.target.value)}
+            aria-label="Sua resposta"
+          />
+          <button type="submit" className="botao" disabled={enviando || !texto.trim()}>
+            Responder
           </button>
-        ))}
-      </div>
+        </form>
+      ) : (
+        <div className="quiz-opcoes">
+          {pergunta.opcoes.map((op, i) => (
+            <button key={i} type="button" className="quiz-opcao" onClick={() => escolher(i)} disabled={enviando}>
+              {op}
+            </button>
+          ))}
+        </div>
+      )}
     </li>
   )
 }
@@ -41,18 +69,31 @@ function CartaoResultado({ pergunta, minha }: { pergunta: PerguntaQuiz; minha: b
   return (
     <li className={`quiz-cartao resultado${pergunta.acertou ? ' acertou' : ' errou'}`}>
       <p className="quiz-pergunta">{pergunta.pergunta}</p>
-      <div className="quiz-opcoes">
-        {pergunta.opcoes.map((op, i) => (
-          <span
-            key={i}
-            className={`quiz-opcao estatica${i === pergunta.opcaoCorreta ? ' correta' : ''}${
-              i === pergunta.opcaoRespondida && i !== pergunta.opcaoCorreta ? ' escolhida-errada' : ''
-            }`}
-          >
-            {op}
-          </span>
-        ))}
-      </div>
+
+      {pergunta.tipo === 'texto' ? (
+        <div className="quiz-resultado-texto">
+          <p>
+            Resposta certa: <strong>{pergunta.respostaTexto}</strong>
+          </p>
+          <p>
+            Resposta dada: <strong>{pergunta.respostaTextoDada}</strong>
+          </p>
+        </div>
+      ) : (
+        <div className="quiz-opcoes">
+          {pergunta.opcoes.map((op, i) => (
+            <span
+              key={i}
+              className={`quiz-opcao estatica${i === pergunta.opcaoCorreta ? ' correta' : ''}${
+                i === pergunta.opcaoRespondida && i !== pergunta.opcaoCorreta ? ' escolhida-errada' : ''
+              }`}
+            >
+              {op}
+            </span>
+          ))}
+        </div>
+      )}
+
       <p className="quiz-status">
         {minha
           ? pergunta.acertou
@@ -78,20 +119,43 @@ function CartaoPendenteMinha({ pergunta, onRemover }: { pergunta: PerguntaQuiz; 
   )
 }
 
-function FormNovaPergunta({ onCriar, onCancelar }: { onCriar: (p: string, o: string[], c: number) => Promise<boolean>; onCancelar: () => void }) {
+function FormNovaPergunta({
+  onCriar,
+  onCancelar,
+}: {
+  onCriar: (dados: { tipo: TipoPerguntaQuiz; pergunta: string; opcoes?: string[]; opcaoCorreta?: number; respostaTexto?: string }) => Promise<boolean>
+  onCancelar: () => void
+}) {
+  const [tipo, setTipo] = useState<TipoPerguntaQuiz>('escolha')
   const [pergunta, setPergunta] = useState('')
   const [opcoes, setOpcoes] = useState(['', '', '', ''])
   const [correta, setCorreta] = useState(0)
+  const [respostaTexto, setRespostaTexto] = useState('')
   const [ocupado, setOcupado] = useState(false)
   const [erro, setErro] = useState('')
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault()
     if (!pergunta.trim()) return setErro('Escreva a pergunta.')
-    if (opcoes.some((o) => !o.trim())) return setErro('Preencha as 4 opções.')
+
+    let ok: boolean
     setOcupado(true)
     setErro('')
-    const ok = await onCriar(pergunta, opcoes, correta)
+    if (tipo === 'texto') {
+      if (!respostaTexto.trim()) {
+        setErro('Escreva a resposta correta.')
+        setOcupado(false)
+        return
+      }
+      ok = await onCriar({ tipo: 'texto', pergunta, respostaTexto: respostaTexto.trim() })
+    } else {
+      if (opcoes.some((o) => !o.trim())) {
+        setErro('Preencha as 4 opções.')
+        setOcupado(false)
+        return
+      }
+      ok = await onCriar({ tipo: 'escolha', pergunta, opcoes, opcaoCorreta: correta })
+    }
     if (!ok) {
       setErro('Não foi possível guardar. Tente de novo.')
       setOcupado(false)
@@ -100,26 +164,49 @@ function FormNovaPergunta({ onCriar, onCancelar }: { onCriar: (p: string, o: str
 
   return (
     <form className="form" onSubmit={enviar}>
-      <textarea className="campo" placeholder="Ex.: Qual foi o primeiro filme que assistimos juntos?" value={pergunta} maxLength={300} onChange={(e) => setPergunta(e.target.value)} aria-label="Pergunta" />
-      {opcoes.map((o, i) => (
-        <label key={i} className="quiz-linha-opcao">
-          <input
-            type="radio"
-            name="correta"
-            checked={correta === i}
-            onChange={() => setCorreta(i)}
-            aria-label={`Opção ${i + 1} é a correta`}
-          />
-          <input
-            className="campo"
-            placeholder={`Opção ${i + 1}${i === correta ? ' (correta)' : ''}`}
-            value={o}
-            maxLength={150}
-            onChange={(e) => setOpcoes((atual) => atual.map((v, j) => (j === i ? e.target.value : v)))}
-            aria-label={`Texto da opção ${i + 1}`}
-          />
-        </label>
-      ))}
+      <div className="quiz-tipo-selector" role="radiogroup" aria-label="Tipo de pergunta">
+        <button type="button" role="radio" aria-checked={tipo === 'escolha'} className={`tipo-evento${tipo === 'escolha' ? ' selecionado' : ''}`} onClick={() => setTipo('escolha')}>
+          <span>Múltipla escolha</span>
+        </button>
+        <button type="button" role="radio" aria-checked={tipo === 'texto'} className={`tipo-evento${tipo === 'texto' ? ' selecionado' : ''}`} onClick={() => setTipo('texto')}>
+          <span>Resposta livre</span>
+        </button>
+      </div>
+
+      <textarea
+        className="campo"
+        placeholder="Ex.: Qual foi o primeiro filme que assistimos juntos?"
+        value={pergunta}
+        maxLength={300}
+        onChange={(e) => setPergunta(e.target.value)}
+        aria-label="Pergunta"
+      />
+
+      {tipo === 'texto' ? (
+        <input
+          className="campo"
+          placeholder="Resposta correta"
+          value={respostaTexto}
+          maxLength={200}
+          onChange={(e) => setRespostaTexto(e.target.value)}
+          aria-label="Resposta correta"
+        />
+      ) : (
+        opcoes.map((o, i) => (
+          <label key={i} className="quiz-linha-opcao">
+            <input type="radio" name="correta" checked={correta === i} onChange={() => setCorreta(i)} aria-label={`Opção ${i + 1} é a correta`} />
+            <input
+              className="campo"
+              placeholder={`Opção ${i + 1}${i === correta ? ' (correta)' : ''}`}
+              value={o}
+              maxLength={150}
+              onChange={(e) => setOpcoes((atual) => atual.map((v, j) => (j === i ? e.target.value : v)))}
+              aria-label={`Texto da opção ${i + 1}`}
+            />
+          </label>
+        ))
+      )}
+
       <div className="acoes" style={{ marginBottom: 0 }}>
         <button type="submit" className="botao" disabled={ocupado}>
           {ocupado ? 'Guardando…' : 'Criar pergunta'}
@@ -156,9 +243,9 @@ export default function SecaoQuiz({ autor }: { autor: Autor }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autor])
 
-  async function criar(pergunta: string, opcoes: string[], opcaoCorreta: number) {
+  async function criar(dados: { tipo: TipoPerguntaQuiz; pergunta: string; opcoes?: string[]; opcaoCorreta?: number; respostaTexto?: string }) {
     try {
-      const r = await fetch('/api/quiz', { method: 'POST', headers: json, body: JSON.stringify({ autor, pergunta, opcoes, opcaoCorreta }) })
+      const r = await fetch('/api/quiz', { method: 'POST', headers: json, body: JSON.stringify({ autor, ...dados }) })
       if (!r.ok) return false
       setPerguntas((await r.json()).perguntas)
       setCriando(false)
@@ -168,10 +255,10 @@ export default function SecaoQuiz({ autor }: { autor: Autor }) {
     }
   }
 
-  async function responder(id: string, opcaoEscolhida: number) {
+  async function responder(id: string, r: RespostaEnviada) {
     try {
-      const r = await fetch(`/api/quiz/${id}/responder`, { method: 'POST', headers: json, body: JSON.stringify({ autor, opcaoEscolhida }) })
-      if (r.ok) setPerguntas((await r.json()).perguntas)
+      const resp = await fetch(`/api/quiz/${id}/responder`, { method: 'POST', headers: json, body: JSON.stringify({ autor, ...r }) })
+      if (resp.ok) setPerguntas((await resp.json()).perguntas)
       else await recarregar()
     } catch {
       await recarregar()
@@ -266,9 +353,7 @@ export default function SecaoQuiz({ autor }: { autor: Autor }) {
         </>
       )}
 
-      {perguntas.length === 0 && !criando && (
-        <p className="vazio">Ainda não há perguntas. Crie a primeira para {nomeOutro} responder.</p>
-      )}
+      {perguntas.length === 0 && !criando && <p className="vazio">Ainda não há perguntas. Crie a primeira para {nomeOutro} responder.</p>}
     </section>
   )
 }

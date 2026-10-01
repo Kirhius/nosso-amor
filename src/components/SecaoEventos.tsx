@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { diasAteData } from '@/lib/tempo'
 import type { Evento, TipoEvento } from '@/lib/tipos'
 import {
   IconeChurrasco,
@@ -26,13 +27,7 @@ const TIPOS: { valor: TipoEvento; rotulo: string; Icone: React.ComponentType }[]
 ]
 const iconeDe = (tipo: TipoEvento) => TIPOS.find((t) => t.valor === tipo)?.Icone ?? IconeEstrela
 
-function diasRestantes(dataISO: string): number {
-  const hojeBrt = new Date(Date.now() - 3 * 3600_000)
-  const hojeUTC = Date.UTC(hojeBrt.getUTCFullYear(), hojeBrt.getUTCMonth(), hojeBrt.getUTCDate())
-  const [a, m, d] = dataISO.split('-').map(Number)
-  const alvoUTC = Date.UTC(a, m - 1, d)
-  return Math.round((alvoUTC - hojeUTC) / 86400000)
-}
+const diasRestantes = diasAteData
 
 function rotuloContagem(dias: number): string {
   if (dias === 0) return 'É hoje! ❤️'

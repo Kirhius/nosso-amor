@@ -47,12 +47,28 @@ function garantirSchema(): Promise<void> {
       await q`CREATE TABLE IF NOT EXISTS quiz_perguntas (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         autor_criador text NOT NULL,
+        tipo text NOT NULL DEFAULT 'escolha',
         pergunta text NOT NULL,
-        opcoes jsonb NOT NULL,
-        opcao_correta int NOT NULL,
+        opcoes jsonb NOT NULL DEFAULT '[]',
+        opcao_correta int,
         opcao_respondida int,
+        resposta_texto text,
+        resposta_texto_dada text,
         respondida_em timestamptz,
         criado_em timestamptz NOT NULL DEFAULT now()
+      )`
+      await q`ALTER TABLE quiz_perguntas ALTER COLUMN opcao_correta DROP NOT NULL`
+      await q`ALTER TABLE quiz_perguntas ALTER COLUMN opcoes DROP NOT NULL`
+      await q`ALTER TABLE quiz_perguntas ADD COLUMN IF NOT EXISTS tipo text NOT NULL DEFAULT 'escolha'`
+      await q`ALTER TABLE quiz_perguntas ADD COLUMN IF NOT EXISTS resposta_texto text`
+      await q`ALTER TABLE quiz_perguntas ADD COLUMN IF NOT EXISTS resposta_texto_dada text`
+      await q`CREATE TABLE IF NOT EXISTS bilhetes (
+        id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+        de text NOT NULL,
+        para text NOT NULL,
+        texto text NOT NULL,
+        criado_em timestamptz NOT NULL DEFAULT now(),
+        editado_em timestamptz
       )`
       await q`CREATE TABLE IF NOT EXISTS eventos (
         id uuid PRIMARY KEY DEFAULT gen_random_uuid(),

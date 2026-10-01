@@ -157,3 +157,22 @@ export function IconeQuiz() {
     </svg>
   )
 }
+
+export function IconeBilhete() {
+  return (
+    <svg {...traco}>
+      <path d="M5 4h11l3 3v13H5z" />
+      <path d="M16 4v3h3" />
+      <path d="M8 11h8M8 14.5h5" />
+    </svg>
+  )
+}
+
+export function IconeEngrenagem() {
+  return (
+    <svg {...traco}>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 3.5v2M12 18.5v2M20.5 12h-2M5.5 12h-2M17.7 6.3l-1.4 1.4M7.7 16.3l-1.4 1.4M17.7 17.7l-1.4-1.4M7.7 7.7L6.3 6.3" />
+    </svg>
+  )
+}

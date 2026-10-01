@@ -38,16 +38,30 @@ export type PontoMapa = {
   data: string // YYYY-MM-DD, pode ser vazio
 }
 
+export type TipoPerguntaQuiz = 'escolha' | 'texto'
+
 export type PerguntaQuiz = {
   id: string
   autorCriador: Autor
+  tipo: TipoPerguntaQuiz
   pergunta: string
   opcoes: string[]
   opcaoCorreta: number
+  respostaTexto: string | null
+  respostaTextoDada: string | null
   respondida: boolean
   opcaoRespondida: number | null
   acertou: boolean | null
   criadaEm: string
+}
+
+export type Bilhete = {
+  id: string
+  de: Autor
+  para: Autor
+  texto: string
+  criadoEm: string
+  editadoEm: string | null
 }
 
 export type Autor = 'ele' | 'ela'

@@ -1,7 +1,7 @@
 import Painel from '@/components/Painel'
 import TelaPin from '@/components/TelaPin'
 import { sessaoValida } from '@/lib/auth'
-import { listarCuriosidades, listarEventos, listarFotos, listarMomentos, listarPontosMapa, listarViagens } from '@/lib/dados'
+import { listarBilhetes, listarCuriosidades, listarEventos, listarFotos, listarMomentos, listarPontosMapa, listarViagens } from '@/lib/dados'
 import { getConfig } from '@/lib/db'
 import { faltandoEssenciais } from '@/lib/env'
 
@@ -42,7 +42,8 @@ export default async function Home() {
       const temPin = Boolean(await getConfig('pin_hash'))
       return <TelaPin temPin={temPin} />
     }
-    const [fotos, momentos, eventos, viagens, pontosMapa, curiosidades] = await Promise.all([
+    const [bilhetes, fotos, momentos, eventos, viagens, pontosMapa, curiosidades] = await Promise.all([
+      listarBilhetes(),
       listarFotos(),
       listarMomentos(),
       listarEventos(),
@@ -52,6 +53,7 @@ export default async function Home() {
     ])
     return (
       <Painel
+        bilhetes={bilhetes}
         fotos={fotos}
         momentos={momentos}
         eventos={eventos}

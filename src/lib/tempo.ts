@@ -69,3 +69,12 @@ export function marcosDeHoje(agoraMs: number): string[] {
 
   return saida
 }
+
+/** Diferenca em dias de calendario (fuso de Brasilia) entre hoje e a data alvo (YYYY-MM-DD). Positivo = no futuro. */
+export function diasAteData(dataISO: string, agoraMs: number = Date.now()): number {
+  const hoje = brt(agoraMs)
+  const hojeUTC = Date.UTC(hoje.getUTCFullYear(), hoje.getUTCMonth(), hoje.getUTCDate())
+  const [a, m, d] = dataISO.split('-').map(Number)
+  const alvoUTC = Date.UTC(a, m - 1, d)
+  return Math.round((alvoUTC - hojeUTC) / 86400000)
+}

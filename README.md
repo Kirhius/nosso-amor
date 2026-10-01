@@ -42,7 +42,7 @@ Abra http://localhost:3000. No primeiro acesso ainda nao existe PIN: toque em "E
 1. Suba o projeto para o GitHub e importe no Vercel.
 2. Em *Settings > Environment Variables*, cadastre TODAS as variaveis do `.env.example` (com `APP_URL` = endereco do Vercel). `NEXT_PUBLIC_VAPID_PUBLIC_KEY` precisa existir antes do deploy.
 3. Volte no CORS do R2 e ponha o endereco real do app.
-4. Os crons diarios (`vercel.json`) rodam as 08h00 (frase do dia) e 08h30 (aniversario) de Brasilia. No plano gratuito o horario pode variar dentro da hora.
+4. Os crons diarios (`vercel.json`) rodam as 08h00 (frase do dia), 08h30 (aniversario) e 09h00 (eventos: 7 dias antes e no dia) de Brasilia. No plano gratuito o horario pode variar dentro da hora.
 
 ## 4. Instalar nos celulares
 
@@ -52,6 +52,11 @@ Abra http://localhost:3000. No primeiro acesso ainda nao existe PIN: toque em "E
 No primeiro acesso de cada aparelho, o app pergunta "Quem esta usando este aparelho?" (Henrique ou Renata). Essa escolha fica soh naquele aparelho e decide quem recebe o aviso quando o outro adiciona uma foto, um momento ou uma viagem — quem faz a acao nao se autoavisa.
 
 ## 5. As abas novas
+
+- **Bilhetes**: recadinhos com "De:" e "Para:" (escolhidos entre Henrique/Renata, nao texto livre, para o aviso saber a quem enviar), estilo post-it, em feed. Editar e remover disponiveis; ao postar, quem esta em "Para:" recebe um aviso (se for diferente de quem escreveu).
+- **Quiz com resposta livre**: alem de multipla escolha, da para criar pergunta com resposta em texto (ex.: nome de um lugar). A comparacao ignora maiusculas, acentos e espacos extras.
+- **Configuracoes**: o rodape agora mostra so um icone de engrenagem; toque nele para ver "Ativar avisos" e "Sair".
+- **Avisos de eventos**: todo dia aparece um cron novo (`/api/cron/eventos`) que avisa "Faltam 7 dias para X" e, no dia, "HOJE TEM X".
 
 - **Frase do dia**: fica embaixo do contador na tela inicial. O texto (referencias biblicas parafraseadas e reflexoes) esta em `src/lib/frases.ts` — edite ou substitua pela traducao exata que preferirem.
 - **Eventos**: contagem regressiva para compromissos futuros, com icone por tipo (viagem, show, passeio, churrasco, jantar, outro) e um campo de observacao.

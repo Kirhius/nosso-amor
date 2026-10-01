@@ -13,9 +13,13 @@ CREATE TABLE IF NOT EXISTS mapa_pontos (
   longitude double precision NOT NULL, local text NOT NULL DEFAULT '', data date,
   criado_em timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS quiz_perguntas (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), autor_criador text NOT NULL, pergunta text NOT NULL,
-  opcoes jsonb NOT NULL, opcao_correta int NOT NULL, opcao_respondida int, respondida_em timestamptz,
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), autor_criador text NOT NULL, tipo text NOT NULL DEFAULT 'escolha',
+  pergunta text NOT NULL, opcoes jsonb, opcao_correta int, opcao_respondida int,
+  resposta_texto text, resposta_texto_dada text, respondida_em timestamptz,
   criado_em timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS bilhetes (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), de text NOT NULL, para text NOT NULL, texto text NOT NULL,
+  criado_em timestamptz NOT NULL DEFAULT now(), editado_em timestamptz);
 CREATE TABLE IF NOT EXISTS eventos (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(), titulo text NOT NULL, tipo text NOT NULL DEFAULT 'outro',
   data date NOT NULL, observacao text NOT NULL DEFAULT '', criado_em timestamptz NOT NULL DEFAULT now());
